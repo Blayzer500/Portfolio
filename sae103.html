@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAÉ 1.03 – Découvrir un dispositif de transmission | Gwendal Cauchon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --blue-mid: #bfdbfe;
+      --accent: #7c3aed;
+      --accent-light: #f5f3ff;
+      --accent-mid: #ddd6fe;
+      --gray: #374151;
+      --gray-light: #f9fafb;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--accent-light); color: var(--gray); line-height: 1.7; }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    nav a { color: white; text-decoration: none; margin-left: 1.2rem; font-size: 0.9rem; opacity: 0.9; transition: opacity 0.2s; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+
+    .hero {
+      background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }
+
+    .meta-strip {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+    .meta-strip span { display: flex; align-items: center; gap: 0.4rem; }
+    .meta-strip i { color: var(--accent); }
+
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--accent);
+    }
+    .section-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-card p { margin-bottom: 0.8rem; }
+    .section-card ul { padding-left: 1.4rem; }
+    .section-card ul li { margin-bottom: 0.4rem; }
+
+    .ac-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .ac-tag {
+      background: var(--accent-light);
+      border: 1px solid var(--accent-mid);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    .ac-tag strong { display: block; color: var(--accent); margin-bottom: 0.2rem; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; }
+    th { background: var(--accent); color: white; padding: 0.7rem 1rem; text-align: left; }
+    td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); }
+    tr:nth-child(even) td { background: var(--gray-light); }
+
+    .autoeval-box {
+      background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+      border: 1px solid var(--accent-mid);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem;
+    }
+    .autoeval-box p { margin-bottom: 0.5rem; }
+
+    .proof-container { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem; }
+    .proof-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--gray);
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 150px;
+      text-align: center;
+      font-size: 0.8rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .proof-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .proof-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 0.5rem; }
+
+    footer {
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-broadcast-tower"></i> SAÉ 1.03</h1>
+  <nav>
+    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+    <a href="projects.html"><i class="fas fa-folder"></i> Projets</a>
+    <a href="bilan.html"><i class="fas fa-th-large"></i> Bilan de compétences</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="badge">SAÉ 1.03 · Semestre 1</div>
+  <h2><i class="fas fa-broadcast-tower"></i> Découvrir un dispositif de transmission</h2>
+  <p>Mesurer et analyser des signaux, déployer des supports de transmission et communiquer avec un tiers dans un cadre professionnel.</p>
+</div>
+
+<div class="meta-strip">
+  <span><i class="fas fa-user"></i> Gwendal Cauchon</span>
+  <span><i class="fas fa-layer-group"></i> Compétence RT2 – Connecter les entreprises et les usagers</span>
+  <span><i class="fas fa-tags"></i> AC12.01 · AC12.03 · AC12.05</span>
+</div>
+
+<main>
+
+  <div class="section-card">
+    <h3><i class="fas fa-info-circle"></i> Description & Objectifs</h3>
+    <p>Cette SAÉ porte sur la découverte des systèmes de transmission dans les réseaux de télécommunications. Il s'agit d'explorer concrètement les signaux, les supports physiques de transmission et la communication technique avec un interlocuteur.</p>
+    <ul>
+      <li>Réaliser des mesures sur des signaux électriques et optiques à l'aide d'instruments de laboratoire.</li>
+      <li>Identifier et déployer différents supports de transmission (câble cuivre, fibre optique, sans fil).</li>
+      <li>Rédiger un compte rendu technique clair et structuré.</li>
+      <li>Adapter son discours technique selon l'interlocuteur (pair, client, enseignant).</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-graduation-cap"></i> Apprentissages Critiques (AC)</h3>
+    <div class="ac-grid">
+      <div class="ac-tag"><strong>AC12.01 – RT2</strong>Mesurer et analyser les signaux à l'aide d'oscilloscopes, de multimètres et d'autres instruments de mesure.</div>
+      <div class="ac-tag"><strong>AC12.03 – RT2</strong>Déployer des supports de transmission : câblage structuré, fibre optique, connexions sans fil.</div>
+      <div class="ac-tag"><strong>AC12.05 – RT2</strong>Communiquer avec un tiers (client, collaborateur…) et adapter son discours et sa langue à son interlocuteur.</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-tasks"></i> Tâches réalisées</h3>
+    <ul>
+      <li><strong>Mesures de signaux :</strong> Utilisation d'un oscilloscope pour observer et caractériser des signaux sinusoïdaux, carrés et numériques. Mesure de fréquence, amplitude et déphasage.</li>
+      <li><strong>Déploiement de câblage :</strong> Confection de câbles RJ45 (droit et croisé), test de continuité, mise en place d'un câblage structuré en salle de TP.</li>
+      <li><strong>Compte rendu de TP :</strong> Rédaction d'un rapport technique présentant les mesures effectuées, les résultats obtenus et leur interprétation.</li>
+      <li><strong>Présentation orale :</strong> Restitution des résultats devant le groupe et l'enseignant, avec adaptation du niveau de langage.</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-trophy"></i> Résultats obtenus</h3>
+    <p>Les TP de mesure ont permis de valider la compréhension des concepts de signal (période, fréquence, amplitude). Le câblage RJ45 a été réalisé correctement et testé avec succès. Le compte rendu a été remis dans les délais et a reçu un retour positif sur la clarté de la rédaction.</p>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-user-check"></i> Autoévaluation</h3>
+    <div class="autoeval-box">
+      <p>Cette SAÉ m'a ouvert au monde des télécommunications physiques, que je connaissais peu. La manipulation des instruments de mesure a été déroutante au début, mais la répétition des TP m'a permis de prendre de l'assurance. La rédaction du compte rendu m'a demandé un effort de structuration que je considère maintenant comme un atout.</p>
+      <p>Je me positionne en maîtrise satisfaisante de l'AC12.01 et AC12.03. L'AC12.05 (communication avec un tiers) reste un axe d'amélioration : je tends parfois à utiliser un jargon trop technique sans adapter mon discours.</p>
+    </div>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th>Problème rencontré</th>
+          <th>Solution envisagée ou envisageable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Difficulté à interpréter correctement les formes d'onde sur l'oscilloscope.</td>
+          <td>Reprendre les tutoriels vidéo de prise en main de l'oscilloscope avant les TP.</td>
+        </tr>
+        <tr>
+          <td>Confection de câbles RJ45 imprécise au premier essai (ordre des fils).</td>
+          <td>Mémoriser le standard TIA-568B et s'exercer plusieurs fois sur des câbles de rebut.</td>
+        </tr>
+        <tr>
+          <td>Rédaction du compte rendu trop technique, peu accessible à un non-spécialiste.</td>
+          <td>Relire le rapport en imaginant un lecteur non technique et reformuler les passages denses.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-paperclip"></i> Preuves & Traces</h3>
+    <div class="proof-container">
+      <a href="Preuves/KOBIYH-CAUCHON-DIALLO-FRANCOIS-SAE13-DTF.pdf"  class="proof-item">
+        <i class="fas fa-file-pdf"></i>
+        <span>Compte rendu de TP DTF</span>
+      </a>
+      <a href=""  class="proof-item">
+        <i class="fas fa-file-pdf"></i>
+        <span>Compte rendu de TP photométrie</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Portfolio Gwendal Cauchon · BUT R&T · 2025
+</footer>
+
+</body>
+</html>

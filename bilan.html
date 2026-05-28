@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bilan par compétence – Gwendal Cauchon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb; --blue-dark: #1d4ed8; --blue-light: #eff6ff;
+      --green: #15803d; --green-light: #f0fdf4;
+      --purple: #6d28d9; --purple-light: #f5f3ff;
+      --cyan: #0e7490; --cyan-light: #ecfeff;
+      --red: #b91c1c; --red-light: #fef2f2;
+      --amber: #b45309; --amber-light: #fffbeb;
+      --gray: #374151; --gray-2: #6b7280; --gray-light: #f9fafb;
+      --border: #e5e7eb; --white: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f1f5f9; color: var(--gray); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+    header { background: var(--blue); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.12); position: sticky; top: 0; z-index: 100; }
+    header h1 { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    nav { display: flex; flex-wrap: wrap; gap: 0.2rem; align-items: center; }
+    nav a { color: white; text-decoration: none; margin-left: 1rem; font-size: 0.85rem; opacity: 0.8; transition: opacity 0.2s; white-space: nowrap; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+    nav a.active { opacity: 1; font-weight: 700; }
+
+    .hero { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%); color: white; padding: 2.5rem 2rem 0; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px); }
+    .hero-inner { position: relative; z-index: 1; }
+    .hero-tag { display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1rem; }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+    .hero p { font-size: 0.9rem; opacity: 0.7; max-width: 480px; margin: 0 auto; }
+    .hero-stats { display: flex; justify-content: center; gap: 0; margin-top: 2.2rem; background: rgba(0,0,0,0.18); border-top: 1px solid rgba(255,255,255,0.1); }
+    .hstat { flex: 1; max-width: 180px; padding: 1rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); }
+    .hstat:last-child { border-right: none; }
+    .hstat-val { font-size: 1.6rem; font-weight: 800; }
+    .hstat-label { font-size: 0.72rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    main { max-width: 960px; margin: 2.5rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
+
+    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #94a3b8; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+
+    .synthese { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1px 1fr; gap: 1.5rem; align-items: start; }
+    @media (max-width: 600px) { .synthese { grid-template-columns: 1fr; } .divider-v { display: none; } }
+    .divider-v { background: var(--border); width: 1px; align-self: stretch; }
+    .synthese-text { font-size: 0.88rem; color: #4b5563; line-height: 1.75; }
+    .synthese-text strong { color: var(--gray); font-weight: 700; }
+    .synthese-axes { display: flex; flex-direction: column; gap: 0.6rem; }
+    .axe-row { display: flex; align-items: center; gap: 0.75rem; }
+    .axe-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .axe-label { font-size: 0.83rem; color: var(--gray); flex: 1; }
+    .axe-bar { width: 100px; height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+    .axe-fill { height: 100%; border-radius: 999px; }
+    .axe-pct { font-size: 0.72rem; font-weight: 700; width: 32px; text-align: right; flex-shrink: 0; }
+
+    .comp-block { margin-bottom: 1.5rem; background: var(--white); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .comp-banner { padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; user-select: none; border-bottom: 1px solid transparent; transition: background 0.15s; }
+    .comp-banner:hover { background: var(--gray-light); }
+    .comp-block.open .comp-banner { border-bottom-color: var(--border); }
+    .comp-pill { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 6px; padding: 0.25rem 0.65rem; flex-shrink: 0; }
+    .comp-name { font-size: 0.98rem; font-weight: 700; flex: 1; }
+    .comp-niveau { font-size: 0.78rem; color: var(--gray-2); }
+    .comp-stars { display: flex; gap: 3px; flex-shrink: 0; }
+    .star { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .star.on { background: currentColor; }
+    .comp-chevron { color: #94a3b8; font-size: 0.85rem; transition: transform 0.2s; flex-shrink: 0; }
+    .comp-block.open .comp-chevron { transform: rotate(180deg); }
+    .comp-content { display: none; }
+    .comp-block.open .comp-content { display: block; }
+
+    .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    @media (max-width: 640px) { .comp-grid { grid-template-columns: 1fr; } }
+    .comp-panel { padding: 1.25rem 1.5rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .comp-panel:nth-child(even) { border-right: none; }
+    .comp-panel:nth-last-child(-n+2) { border-bottom: none; }
+    @media (max-width: 640px) { .comp-panel { border-right: none; } .comp-panel:last-child { border-bottom: none; } }
+
+    .panel-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+
+    .ac-list { display: flex; flex-direction: column; gap: 0.45rem; }
+    .ac-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; }
+    .ac-code { font-size: 0.68rem; font-weight: 700; border-radius: 5px; padding: 0.15rem 0.5rem; white-space: nowrap; flex-shrink: 0; font-family: monospace; }
+    .ac-text { flex: 1; color: #4b5563; line-height: 1.4; }
+    .ac-status { width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; flex-shrink: 0; }
+    .ok { background: var(--green-light); color: var(--green); }
+    .partial { background: var(--amber-light); color: var(--amber); }
+    .no { background: var(--red-light); color: var(--red); }
+
+    .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .bullet-list li { font-size: 0.83rem; color: #4b5563; display: flex; gap: 0.5rem; align-items: flex-start; line-height: 1.45; }
+    .bullet-list li .bicon { flex-shrink: 0; margin-top: 2px; font-size: 0.75rem; }
+
+    .eval-list { display: flex; flex-direction: column; gap: 0.7rem; }
+    .eval-row { display: flex; flex-direction: column; gap: 0.25rem; }
+    .eval-top { display: flex; justify-content: space-between; align-items: center; }
+    .eval-name { font-size: 0.82rem; color: var(--gray); }
+    .eval-score { font-size: 0.75rem; font-weight: 700; }
+    .eval-track { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .eval-fill { height: 100%; border-radius: 999px; }
+
+    .sae-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .sae-link { font-size: 0.75rem; font-weight: 700; border-radius: 7px; padding: 0.3rem 0.75rem; text-decoration: none; transition: opacity 0.15s; display: flex; align-items: center; gap: 0.35rem; }
+    .sae-link:hover { opacity: 0.75; }
+
+    .legend { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.8rem; padding-top: 0.7rem; border-top: 1px solid var(--border); }
+    .legend-item { display: flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; color: var(--gray-2); }
+    .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    .comp-footer { padding: 1.1rem 1.5rem; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (max-width: 640px) { .comp-footer { grid-template-columns: 1fr; } }
+
+    .projection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .proj-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem; }
+    .proj-card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
+    .proj-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .proj-card h3 { font-size: 0.88rem; font-weight: 700; }
+    .proj-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .proj-card ul li { font-size: 0.8rem; color: #4b5563; display: flex; gap: 0.4rem; align-items: flex-start; line-height: 1.4; }
+    .proj-card ul li::before { content: "→"; flex-shrink: 0; font-weight: 700; font-size: 0.72rem; margin-top: 2px; color: #94a3b8; }
+
+    footer { background: var(--blue); color: white; text-align: center; padding: 1.2rem; font-size: 0.82rem; opacity: 0.95; margin-top: auto; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-folder-open"></i> Portfolio BUT R&T</h1>
+  <nav>
+    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+    <a href="projects.html"><i class="fas fa-th-large"></i> Tous les projets</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h2>Bilan de compétences</h2>
+    <p>Analyse des apprentissages, autoévaluation et projection vers la suite de la formation.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val">5</div><div class="hstat-label">SAÉ réalisées</div></div>
+      <div class="hstat"><div class="hstat-val">3</div><div class="hstat-label">Compétences</div></div>
+      <div class="hstat"><div class="hstat-val">14</div><div class="hstat-label">AC mobilisés</div></div>
+      <div class="hstat"><div class="hstat-val">S1</div><div class="hstat-label">Semestre</div></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <p class="section-label"><i class="fas fa-layer-group"></i> Bilan détaillé par compétence</p>
+
+  <!-- RT1 -->
+  <div class="comp-block open" id="c-rt1">
+    <div class="comp-banner" onclick="toggle('c-rt1')" style="color:#1e40af;">
+      <span class="comp-pill" style="background:#dbeafe;color:#1e40af;">RT1</span>
+      <div>
+        <div class="comp-name">Administrer les réseaux et l'Internet</div>
+        <div class="comp-niveau"> Assister l'administrateur du réseau</div>
+      </div>
+      <i class="fas fa-chevron-down comp-chevron"></i>
+    </div>
+    <div class="comp-content">
+      <div class="comp-grid">
+        <div class="comp-panel">
+          <div class="panel-title" style="color:#2563eb;"><i class="fas fa-check-square"></i> Apprentissages critiques</div>
+          <div class="ac-list">
+            <div class="ac-item"><span class="ac-code" style="background:#dbeafe;color:#1e40af;">AC11.01</span><span class="ac-text">Lois fondamentales de l'électricité</span></div>
+            <div class="ac-item"><span class="ac-code" style="background:#dbeafe;color:#1e40af;">AC11.02</span><span class="ac-text">Architecture des systèmes numériques et codage de l'information</span></div>
+            <div class="ac-item"><span class="ac-code" style="background:#dbeafe;color:#1e40af;">AC11.03</span><span class="ac-text">Configuration du réseau local (VLANs, switches)</span></div>
+            <div class="ac-item"><span class="ac-code" style="background:#dbeafe;color:#1e40af;">AC11.04</span><span class="ac-text">Systèmes d'exploitation — configuration et administration</span></div>
+            <div class="ac-item"><span class="ac-code" style="background:#dbeafe;color:#1e40af;">AC11.05</span><span class="ac-text">Identifier et signaler les dysfonctionnements réseau</span></div>
+            <div class="ac-item"><span class="ac-code" style="background:#dbeafe;color:#1e40af;">AC11.06</span><span class="ac-text">Installer un poste client et expliquer la procédure</span></div>
+          </div>
+        </div>
+        <div class="comp-panel">
+          <div class="panel-title" style="color:#15803d;"><i class="fas fa-thumbs-up"></i> Ce que je maîtrise</div>
+          <ul class="bullet-list">
+            <li><span class="bicon" style="color:#15803d;">✓</span>Configuration de VLANs et SSH sur switches Cisco</li>
+            <li><span class="bicon" style="color:#15803d;">✓</span>Compréhension du modèle OSI et de la pile TCP/IP</li>
+            <li><span class="bicon" style="color:#15803d;">✓</span>Déploiement et configuration de machines virtuelles</li>
+            <li><span class="bicon" style="color:#15803d;">✓</span>Compréhension et mise en marche d'un serveur Linux</li>
+          </ul>
+        </div>
+        <div class="comp-panel">
+          <div class="panel-title" style="color:#b91c1c;"><i class="fas fa-exclamation-circle"></i> Points à consolider</div>
+          <ul class="bullet-list">
+            <li><span class="bicon" style="color:#b91c1c;">!</span>Bases télécom électrique (Kirchhoff, courant/tension) encore fragiles</li>
+            <li><span class="bicon" style="color:#b91c1c;">!</span>Routage vers la box non fait</li>
+            <li><span class="bicon" style="color:#b91c1c;">!</span>Administration avancée Linux (scripting Bash pour création de compte automatique)</li>
+          </ul>
+        </div>
+        <div class="comp-panel">
+          <div class="panel-title" style="color:#0891b2;"><i class="fas fa-sliders-h"></i> Autoévaluation</div>
+          <div class="eval-list">
+            <div class="eval-row"><div class="eval-top"><span class="eval-name">Configuration réseau (VLANs, SSH)</span><span class="eval-score" style="color:#2563eb;">Correct</span></div><div class="eval-track"><div></div></div></div>
+            <div class="eval-row"><div class="eval-top"><span class="eval-name">Diagnostic réseau</span><span class="eval-score" style="color:#2563eb;">Correct</span></div><div class="eval-track"><div ></div></div></div>
+            <div class="eval-row"><div class="eval-top"><span class="eval-name">Systèmes d'exploitation (Linux)</span><span class="eval-score" style="color:#2563eb;">À améliorer</span></div><div class="eval-track"><div ></div></div></div>
+            <div class="eval-row"><div class="eval-top"><span class="eval-name">Électronique Télécommunications</span><span class="eval-score" style="color:#2563eb;">À améliorer</span></div><div class="eval-track"><div ></div></div></div>
+          </div>
+          <div style="margin-top:1rem;">
+            <div class="panel-title" style="color:#7c3aed;margin-bottom:0.5rem;"><i class="fas fa-link"></i> SAÉ contributives</div>
+            <div class="sae-links">
+              <a href="sae101.html" class="sae-link" style="background:#eff6ff;color:#1e40af;">SAÉ 1.01 · Cybersécurité</a>
+              <a href="sae102.html" class="sae-link" style="background:#f0fdf4;color:#15803d;">SAÉ 1.02 · Réseaux</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="comp-footer">
+        <div>
+          <div class="panel-title" style="color:#b45309;"><i class="fas fa-chart-line"></i> Progression observée</div>
+          <p style="font-size:0.83rem;color:#4b5563;line-height:1.65;">Je suis passé de zéro connaissance réseau à la configuration d'une maquette Cisco complète avec VLANs et SSH. La SAÉ 1.01 m'a permis d'ancrer la sécurité dans la pratique administrative plutôt que de la voir comme un sujet à part entière. La SAÉ 1.02, elle, m'a permis de passer à la pratique et de faire une mini réseau avec VLAN et SSH avec DHCP.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= RT2 ========================= -->
+<div class="comp-block" id="c-rt2">
+  <div class="comp-banner" onclick="toggle('c-rt2')" style="color:#5b21b6;">
+    <span class="comp-pill" style="background:#ede9fe;color:#5b21b6;">RT2</span>
+    <div>
+      <div class="comp-name">Connecter les entreprises et les usagers</div>
+      <div class="comp-niveau">Découvrir les transmissions et la ToIP</div>
+    </div>
+    <i class="fas fa-chevron-down comp-chevron"></i>
+  </div>
+
+  <div class="comp-content">
+    <div class="comp-grid">
+
+      <!-- Apprentissages critiques -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#7c3aed;">
+          <i class="fas fa-check-square"></i> Apprentissages critiques
+        </div>
+
+        <div class="ac-list">
+          <div class="ac-item">
+            <span class="ac-code" style="background:#ede9fe;color:#5b21b6;">AC12.01</span>
+            <span class="ac-text">Mesurer et analyser les signaux</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#ede9fe;color:#5b21b6;">AC12.02</span>
+            <span class="ac-text">Caractériser des systèmes de transmission — modélisation mathématique</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#ede9fe;color:#5b21b6;">AC12.03</span>
+            <span class="ac-text">Déployer des supports de transmission (RJ45, câblage)</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#ede9fe;color:#5b21b6;">AC12.04</span>
+            <span class="ac-text">Connecter les systèmes de ToIP</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#ede9fe;color:#5b21b6;">AC12.05</span>
+            <span class="ac-text">Communiquer et adapter son discours à son interlocuteur</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maîtrise -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#15803d;">
+          <i class="fas fa-thumbs-up"></i> Ce que je maîtrise
+        </div>
+
+        <ul class="bullet-list">
+          <li><span class="bicon" style="color:#15803d;">✓</span>Lecture et interprétation de signaux sur oscilloscope</li>
+          <li><span class="bicon" style="color:#15803d;">✓</span>Câblage RJ45 droit et croisé, tests de continuité</li>
+          <li><span class="bicon" style="color:#15803d;">✓</span>Rédaction d'un rapport technique adapté </li>
+        </ul>
+      </div>
+
+      <!-- Points à consolider -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#b91c1c;">
+          <i class="fas fa-exclamation-circle"></i> Points à consolider
+        </div>
+
+        <ul class="bullet-list">
+          <li><span class="bicon" style="color:#b91c1c;">!</span>Modélisation mathématique des signaux (Fourier, filtres)</li>
+          <li><span class="bicon" style="color:#b91c1c;">!</span>Fibre optique : besoin de plus de théorie</li>
+        </ul>
+      </div>
+
+      <!-- Autoévaluation -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#0891b2;">
+          <i class="fas fa-sliders-h"></i> Autoévaluation
+        </div>
+
+        <div class="eval-list">
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Mesure signaux (oscilloscope)</span>
+              <span class="eval-score" style="color:#2563eb;">Correct</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Câblage et déploiement physique</span>
+              <span class="eval-score" style="color:#2563eb;">Correct</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Modélisation mathématique</span>
+              <span class="eval-score" style="color:#2563eb;">Correct</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Communication technique</span>
+              <span class="eval-score" style="color:#2563eb;">À améliorer</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:1rem;">
+          <div class="panel-title" style="color:#7c3aed;margin-bottom:0.5rem;">
+            <i class="fas fa-link"></i> SAÉ contributives
+          </div>
+
+          <div class="sae-links">
+            <a href="sae103.html" class="sae-link" style="background:#f5f3ff;color:#5b21b6;">
+              SAÉ 1.03 · Transmission
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="comp-footer">
+      <div>
+        <div class="panel-title" style="color:#b45309;">
+          <i class="fas fa-chart-line"></i> Progression observée
+        </div>
+
+        <p style="font-size:0.83rem;color:#4b5563;line-height:1.65;">
+          La SAÉ 1.03 a été ma première confrontation avec l'instrumentation physique.
+          Passer de la théorie des signaux à la manipulation réelle d'un oscilloscope
+          m'a aidé à ancrer des notions abstraites. Nous avons seulement eu une courte 
+          introduction aux mesures à suivre avec notre saé, ce qui a permis de 
+          développer un meilleur sens de la recherche personnel.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ========================= RT3 ========================= -->
+<div class="comp-block" id="c-rt3">
+  <div class="comp-banner" onclick="toggle('c-rt3')" style="color:#0e7490;">
+    <span class="comp-pill" style="background:#cffafe;color:#0e7490;">RT3</span>
+
+    <div>
+      <div class="comp-name">Créer des outils et des applications pour les R&T</div>
+      <div class="comp-niveau">S'intégrer dans un service informatique</div>
+    </div>
+
+    <i class="fas fa-chevron-down comp-chevron"></i>
+  </div>
+
+  <div class="comp-content">
+    <div class="comp-grid">
+
+      <!-- Apprentissages critiques -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#0891b2;">
+          <i class="fas fa-check-square"></i> Apprentissages critiques
+        </div>
+
+        <div class="ac-list">
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#cffafe;color:#0e7490;">AC13.01</span>
+            <span class="ac-text">Utiliser un système informatique et ses outils</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#cffafe;color:#0e7490;">AC13.02</span>
+            <span class="ac-text">Lire, exécuter, corriger et modifier un programme</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#cffafe;color:#0e7490;">AC13.03</span>
+            <span class="ac-text">Traduire un algorithme dans un langage donné</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#cffafe;color:#0e7490;">AC13.04</span>
+            <span class="ac-text">Architecture et technologies d'un site Web</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#cffafe;color:#0e7490;">AC13.05</span>
+            <span class="ac-text">Choisir les mécanismes de gestion de données</span>
+          </div>
+
+          <div class="ac-item">
+            <span class="ac-code" style="background:#cffafe;color:#0e7490;">AC13.06</span>
+            <span class="ac-text">Travail collaboratif — Git et environnement de développement</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Maîtrise -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#15803d;">
+          <i class="fas fa-thumbs-up"></i> Ce que je maîtrise
+        </div>
+
+        <ul class="bullet-list">
+          <li><span class="bicon" style="color:#15803d;">✓</span>Développement web HTML/CSS </li>
+          <li><span class="bicon" style="color:#15803d;">✓</span>Scripts Python et traitement de données CSV</li>
+          <li><span class="bicon" style="color:#15803d;">✓</span>Versionner et collaborer avec Git</li>
+          <li><span class="bicon" style="color:#15803d;">✓</span>Démarche complète : maquette → code → tests → déploiement</li>
+        </ul>
+      </div>
+
+      <!-- Consolider -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#b91c1c;">
+          <i class="fas fa-exclamation-circle"></i> Points à consolider
+        </div>
+
+        <ul class="bullet-list">
+          <li><span class="bicon" style="color:#b91c1c;">!</span>JavaScript que explorer en surface</li>
+          <li><span class="bicon" style="color:#b91c1c;">!</span>Gestion d'erreurs avec Python </li>
+        </ul>
+      </div>
+
+      <!-- Autoévaluation -->
+      <div class="comp-panel">
+        <div class="panel-title" style="color:#0891b2;">
+          <i class="fas fa-sliders-h"></i> Autoévaluation
+        </div>
+
+        <div class="eval-list">
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Développement web (HTML/CSS)</span>
+              <span class="eval-score" style="color:#2563eb;">Correct</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Programmation Python</span>
+              <span class="eval-score" style="color:#2563eb;">Correct</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+          <div class="eval-row">
+            <div class="eval-top">
+              <span class="eval-name">Git & travail collaboratif</span>
+              <span class="eval-score" style="color:#2563eb;">Correct</span>
+            </div>
+            <div class="eval-track"><div></div></div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:1rem;">
+          <div class="panel-title" style="color:#7c3aed;margin-bottom:0.5rem;">
+            <i class="fas fa-link"></i> SAÉ contributives
+          </div>
+
+          <div class="sae-links">
+            <a href="sae104.html" class="sae-link" style="background:#ecfeff;color:#0e7490;">
+              SAÉ 1.04 · Web
+            </a>
+
+            <a href="sae105.html" class="sae-link" style="background:#fef2f2;color:#b91c1c;">
+              SAÉ 1.05 · Données
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="comp-footer">
+      <div>
+        <div class="panel-title" style="color:#b45309;">
+          <i class="fas fa-chart-line"></i> Progression observée
+        </div>
+
+        <p style="font-size:0.83rem;color:#4b5563;line-height:1.65;">
+          C'est la compétence où ma progression est la plus nette. Je n'avais aucune connaissance en n'importe quelle langage de code.
+          La SAÉ 1.05 m'a appris à travailler sur un vrai projet avec des requettes API, avec gestion des conflits et revue de code.
+          La SAÉ 1.04 m'a donné une démarche complète de conception web que je réutilise déjà pour ce portfolio.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+</main>
+
+<footer>
+  Portfolio Gwendal Cauchon · BUT Réseaux &amp; Télécommunications · 2025
+</footer>
+
+<script>
+  function toggle(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

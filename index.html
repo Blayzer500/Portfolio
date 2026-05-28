@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – Gwendal Cauchon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #eff6ff;
+      --gray: #374151;
+      --gray-light: #f9fafb;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f1f5f9; color: var(--gray); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--blue);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    nav { display: flex; align-items: center; flex-wrap: wrap; gap: 0.2rem; }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-size: 0.875rem;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+    nav a.active { opacity: 1; font-weight: 600; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: white;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+    .hero .subtitle { font-size: 1rem; opacity: 0.8; margin-bottom: 0.3rem; }
+    .hero .desc { font-size: 0.9rem; opacity: 0.65; max-width: 540px; margin: 0.8rem auto 0; }
+
+    .hero-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 2rem;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      text-decoration: none;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .hero-btn:hover { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.6); }
+    .hero-btn.primary { background: white; color: var(--blue); border-color: white; }
+    .hero-btn.primary:hover { background: #e0eaff; }
+
+    /* ── INTRO CARDS (objectif / contenu / démarche) ── */
+    .intro-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .intro-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.3rem 1.4rem;
+    }
+    .intro-card .ic-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--blue-light);
+      color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .intro-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .intro-card p { font-size: 0.82rem; color: #6b7280; line-height: 1.55; }
+ 
+    /* ── MAIN ── */
+    main { max-width: 960px; margin: 2.5rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
+ 
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+    }
+ 
+    /* ── SAÉ GRID ── */
+    .saes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .sae-card {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.4rem;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .sae-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border-color: transparent;
+    }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.9rem; }
+    .card-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .card-badge { font-size: 0.7rem; font-weight: 700; border-radius: 999px; padding: 0.2rem 0.7rem; }
+    .card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; line-height: 1.3; }
+    .card-desc { font-size: 0.8rem; color: #6b7280; margin-bottom: 0.8rem; line-height: 1.5; }
+    .ac-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .ac-tag { font-size: 0.7rem; font-weight: 600; border-radius: 5px; padding: 2px 7px; }
+    .arrow { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); font-size: 0.8rem; }
+    .arrow span { color: #94a3b8; }
+    .arrow i { color: #94a3b8; transition: transform 0.15s; }
+    .sae-card:hover .arrow i { transform: translateX(4px); color: inherit; }
+ 
+    /* couleurs par SAÉ */
+    .s101 { --c: #2563eb; --bg: #eff6ff; --text: #1e40af; }
+    .s102 { --c: #16a34a; --bg: #f0fdf4; --text: #15803d; }
+    .s103 { --c: #7c3aed; --bg: #f5f3ff; --text: #5b21b6; }
+    .s104 { --c: #0891b2; --bg: #ecfeff; --text: #0e7490; }
+    .s105 { --c: #dc2626; --bg: #fef2f2; --text: #b91c1c; }
+ 
+    .sae-card .card-icon { background: var(--bg); color: var(--c); }
+    .sae-card .card-badge { background: var(--bg); color: var(--text); }
+    .sae-card .ac-tag { background: var(--bg); color: var(--text); }
+    .sae-card:hover { border-color: var(--c); }
+    .sae-card:hover .arrow i { color: var(--c); }
+    .sae-card:hover .arrow span { color: var(--c); }
+ 
+    /* ── ALSO LINKS ── */
+    .also-link {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: inherit;
+      font-size: 0.9rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .also-link:hover { border-color: var(--blue); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .also-link i { color: var(--blue); font-size: 1rem; width: 20px; text-align: center; }
+    .also-links { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+ 
+    /* ── PAGE PROFIL ── */
+    .profil-section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.2rem;
+    }
+    .profil-section h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--blue);
+    }
+    .profil-section h2 i { font-size: 1rem; }
+ 
+    .profil-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) { .profil-grid { grid-template-columns: 1fr; } }
+ 
+    .profil-item {
+      background: var(--gray-light);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+    .profil-item .pi-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      margin-bottom: 0.3rem;
+    }
+    .profil-item .pi-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--gray);
+    }
+ 
+    .skills-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+    .skill-pill {
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+    }
+ 
+    .evolutions-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+    .evolutions-list li {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      font-size: 0.88rem;
+    }
+    .evolutions-list li .evo-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--blue-light);
+      color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .evolutions-list li strong { display: block; font-weight: 700; margin-bottom: 0.1rem; }
+    .evolutions-list li span { color: #6b7280; font-size: 0.82rem; }
+ 
+    .metiers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.8rem;
+    }
+    .metier-card {
+      background: var(--gray-light);
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+    .metier-card .mc-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .metier-card strong { font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 0.15rem; }
+    .metier-card span { font-size: 0.78rem; color: #6b7280; }
+ 
+    .links-row { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.5rem; }
+    .ext-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .ext-link:hover { background: var(--blue-dark); }
+    .ext-link.secondary { background: white; color: var(--blue); border: 1px solid var(--border); }
+    .ext-link.secondary:hover { border-color: var(--blue); background: var(--blue-light); }
+ 
+    /* ── AVATAR ── */
+    .avatar { width: clamp(120px, 18vw, 160px); height: clamp(120px, 18vw, 160px); border-radius: 50%; background: rgba(255,255,255,0.2); border: 3px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; overflow: hidden; }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+ 
+    /* ── DIVIDER ── */
+    .page-divider {
+      border: none;
+      border-top: 2px dashed var(--border);
+      margin: 2.5rem 0;
+    }
+ 
+    /* ── FOOTER ── */
+    footer { background: var(--blue); color: white; text-align: center; padding: 1.2rem; font-size: 0.82rem; opacity: 0.95; }
+  </style>
+
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-folder-open"></i> Portfolio BUT R&T</h1>
+  <nav>
+    <a href="projects.html"><i class="fas fa-th-large"></i> Tous les projets</a>
+    <a href="bilan.html"><i class="fas fa-th-large"></i> Bilan de compétences</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="avatar">
+  <img src="oui.jpg" alt="Photo de profil" >
+</div>
+  <h2>Gwendal Cauchon</h2>
+  <p class="subtitle">BUT Réseaux & Télécommunications </p>
+  <p class="desc">Portfolio de compétences retraçant mes projets en autonomie.</p>
+</div>
+
+<main>
+    <hr class="page-divider">
+ 
+  <p class="section-title" id="profil"><i class="fas fa-user-graduate"></i> &nbsp;Présentation &amp; projection professionnelle</p>
+ 
+  <!-- Bloc 1 : Profil synthétique -->
+  <div class="profil-section">
+    <h2><i class="fas fa-id-card"></i> Mon profil</h2>
+    <div class="profil-grid">
+      <div class="profil-item">
+        <div class="pi-label">Formation</div>
+        <div class="pi-value">BUT Réseaux &amp; Télécommunications — IUT</div>
+      </div>
+      <div class="profil-item">
+        <div class="pi-label">Statut</div>
+        <div class="pi-value">Étudiant — en recherche de stage </div>
+      </div>
+    </div>
+ 
+    <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;margin:1.2rem 0 0.5rem;">Compétences principales</p>
+    <div class="skills-row">
+      <span class="skill-pill"><i class="fas fa-network-wired"></i> Réseaux TCP/IP</span>
+      <span class="skill-pill"><i class="fas fa-shield-alt"></i> Cybersécurité</span>
+      <span class="skill-pill"><i class="fas fa-code"></i> Python</span>
+      <span class="skill-pill"><i class="fas fa-code"></i> HTML / CSS</span>
+      <span class="skill-pill"><i class="fab fa-git-alt"></i> Git</span>
+      <span class="skill-pill"><i class="fas fa-terminal"></i> Linux / Bash</span>
+      <span class="skill-pill"><i class="fas fa-sitemap"></i> VLANs / Cisco</span>
+    </div>
+  </div>
+ 
+  <!-- Bloc 2 : Évolutions observées -->
+  <div class="profil-section">
+    <h2><i class="fas fa-chart-line"></i> Évolutions majeures au cours de ma formation</h2>
+    <ul class="evolutions-list">
+      <li>
+        <div class="evo-icon"><i class="fas fa-lock"></i></div>
+        <div>
+          <strong>Montée en compétence en cybersécurité</strong>
+          <span>Passage du MOOC ANSSI, pratique du CTF, compréhension des vecteurs d'attaque et des bonnes pratiques de sécurité (SSH, politiques de mots de passe, mises à jour).</span>
+        </div>
+      </li>
+      <li>
+        <div class="evo-icon"><i class="fas fa-network-wired"></i></div>
+        <div>
+          <strong>Maîtrise progressive des réseaux</strong>
+          <span>De la théorie OSI/TCP-IP à la configuration réelle de switches Cisco, VLANs et machines virtuelles en réseau local.</span>
+        </div>
+      </li>
+      <li>
+        <div class="evo-icon"><i class="fas fa-code"></i></div>
+        <div>
+          <strong>Développement de l'autonomie en programmation</strong>
+          <span>Premiers scripts Python, manipulation de données CSV, travail collaboratif avec Git et découverte de l'algorithmique appliquée.</span>
+        </div>
+      </li>
+      <li>
+        <div class="evo-icon"><i class="fas fa-globe"></i></div>
+        <div>
+          <strong>Construction d'une identité numérique professionnelle</strong>
+          <span>Création d'un site web personnel, réflexion sur l'e-réputation, mise en ligne et déploiement de projets web.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+ 
+  <!-- Bloc 3 : Projection professionnelle -->
+  <div class="profil-section">
+    <h2><i class="fas fa-rocket"></i> Projection professionnelle</h2>
+    <p style="font-size:0.88rem;color:#6b7280;margin-bottom:1.2rem;">
+      À l'issue de mon BUT, je souhaite m'orienter vers des métiers à fort enjeu technique, en particulier dans les domaines de la sécurité des systèmes d'information et de l'administration réseau.
+    </p>
+    <div class="metiers-grid">
+      <div class="metier-card">
+        <div class="mc-icon"><i class="fas fa-shield-alt"></i></div>
+        <div>
+          <strong>Analyste SOC / Cybersécurité</strong>
+          <span>Surveillance, détection d'incidents, réponse aux menaces en temps réel.</span>
+        </div>
+      </div>
+      <div class="metier-card">
+        <div class="mc-icon"><i class="fas fa-server"></i></div>
+        <div>
+          <strong>Administrateur réseau &amp; systèmes</strong>
+          <span>Gestion d'infrastructures, supervision, maintenance de parcs informatiques.</span>
+        </div>
+      </div>
+      <div class="metier-card">
+        <div class="mc-icon"><i class="fas fa-bug"></i></div>
+        <div>
+          <strong>Pentester / Ethical Hacker</strong>
+          <span>Tests d'intrusion, audit de sécurité, amélioration de la robustesse des systèmes.</span>
+        </div>
+      </div>
+      <div class="metier-card">
+        <div class="mc-icon"><i class="fas fa-cloud"></i></div>
+        <div>
+          <strong>Ingénieur Cloud / DevOps</strong>
+          <span>Déploiement, automatisation, orchestration d'infrastructures cloud.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Bloc 4 : Liens externes -->
+  <div class="profil-section">
+    <h2><i class="fas fa-link"></i> Mon CV</h2>
+    <div class="links-row">
+      <a href="Preuves/CV.pdf" class="ext-link secondary">
+        <i class="fas fa-file-pdf"></i> Télécharger mon CV
+      </a>
+    </div>
+  </div>
+ 
+
+
+  <p class="section-title"><i class="fas fa-graduation-cap"></i> &nbsp; Projets en autnomie. (Situations d'apprentissage et d'évaluation)</p>
+
+  <div class="saes-grid">
+
+    <a href="sae101.html" class="sae-card s101">
+      <div class="card-header">
+        <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+        <span class="card-badge">SAÉ 1.01</span>
+      </div>
+      <p class="card-title">Hygiène informatique & cybersécurité</p>
+      <p class="card-desc">MOOC ANSSI, SSH, Capture the Flag, sensibilisation aux cybermenaces.</p>
+      <div class="ac-tags">
+        <span class="ac-tag">AC11.02</span>
+        <span class="ac-tag">AC11.04</span>
+        <span class="ac-tag">AC11.05</span>
+      </div>
+      <div class="arrow"><span>Voir la page</span><i class="fas fa-arrow-right"></i></div>
+    </a>
+
+    <a href="sae102.html" class="sae-card s102">
+      <div class="card-header">
+        <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+        <span class="card-badge">SAÉ 1.02</span>
+      </div>
+      <p class="card-title">S'initier aux réseaux informatiques</p>
+      <p class="card-desc">Cisco NetAcad, maquette réseau, VLANs, configuration SSH sur VM.</p>
+      <div class="ac-tags">
+        <span class="ac-tag">AC11.01</span>
+        <span class="ac-tag">AC11.03</span>
+        <span class="ac-tag">AC11.06</span>
+      </div>
+      <div class="arrow"><span>Voir la page</span><i class="fas fa-arrow-right"></i></div>
+    </a>
+
+    <a href="sae103.html" class="sae-card s103">
+      <div class="card-header">
+        <div class="card-icon"><i class="fas fa-broadcast-tower"></i></div>
+        <span class="card-badge">SAÉ 1.03</span>
+      </div>
+      <p class="card-title">Découvrir un dispositif de transmission</p>
+      <p class="card-desc">Oscilloscope, câblage RJ45, mesures de signaux, supports de transmission.</p>
+      <div class="ac-tags">
+        <span class="ac-tag">AC12.01</span>
+        <span class="ac-tag">AC12.03</span>
+        <span class="ac-tag">AC12.05</span>
+      </div>
+      <div class="arrow"><span>Voir la page</span><i class="fas fa-arrow-right"></i></div>
+    </a>
+
+    <a href="sae104.html" class="sae-card s104">
+      <div class="card-header">
+        <div class="card-icon"><i class="fas fa-globe"></i></div>
+        <span class="card-badge">SAÉ 1.04</span>
+      </div>
+      <p class="card-title">Se présenter sur internet</p>
+      <p class="card-desc">Site web personnel en HTML/CSS avec Tailwind, déploiement, identité numérique.</p>
+      <div class="ac-tags">
+        <span class="ac-tag">AC13.01</span>
+        <span class="ac-tag">AC13.04</span>
+      </div>
+      <div class="arrow"><span>Voir la page</span><i class="fas fa-arrow-right"></i></div>
+    </a>
+
+    <a href="sae105.html" class="sae-card s105">
+      <div class="card-header">
+        <div class="card-icon"><i class="fas fa-database"></i></div>
+        <span class="card-badge">SAÉ 1.05</span>
+      </div>
+      <p class="card-title">Traiter des données</p>
+      <p class="card-desc">Python, algorithmique, fichiers CSV, Git, travail collaboratif.</p>
+      <div class="ac-tags">
+        <span class="ac-tag">AC13.02</span>
+        <span class="ac-tag">AC13.03</span>
+        <span class="ac-tag">AC13.05</span>
+        <span class="ac-tag">AC13.06</span>
+      </div>
+      <div class="arrow"><span>Voir la page</span><i class="fas fa-arrow-right"></i></div>
+    </a>
+
+  </div>
+
+
+
+</main>
+
+<footer>
+  Portfolio Gwendal Cauchon · BUT Réseaux & Télécommunications · 2025
+</footer>
+
+</body>
+</html>

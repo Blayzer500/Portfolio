@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAÉ 1.04 – Se présenter sur internet | Gwendal Cauchon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --accent: #0891b2;
+      --accent-dark: #0e7490;
+      --accent-light: #ecfeff;
+      --accent-mid: #a5f3fc;
+      --gray: #374151;
+      --gray-light: #f9fafb;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--accent-light); color: var(--gray); line-height: 1.7; }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    nav a { color: white; text-decoration: none; margin-left: 1.2rem; font-size: 0.9rem; opacity: 0.9; transition: opacity 0.2s; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+
+    .hero {
+      background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }
+
+    .meta-strip {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+    .meta-strip span { display: flex; align-items: center; gap: 0.4rem; }
+    .meta-strip i { color: var(--accent); }
+
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--accent);
+    }
+    .section-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-card p { margin-bottom: 0.8rem; }
+    .section-card ul { padding-left: 1.4rem; }
+    .section-card ul li { margin-bottom: 0.4rem; }
+
+    .ac-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .ac-tag {
+      background: var(--accent-light);
+      border: 1px solid var(--accent-mid);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    .ac-tag strong { display: block; color: var(--accent); margin-bottom: 0.2rem; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; }
+    th { background: var(--accent); color: white; padding: 0.7rem 1rem; text-align: left; }
+    td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); }
+    tr:nth-child(even) td { background: var(--gray-light); }
+
+    .autoeval-box {
+      background: linear-gradient(135deg, #ecfeff, #cffafe);
+      border: 1px solid var(--accent-mid);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem;
+    }
+    .autoeval-box p { margin-bottom: 0.5rem; }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    .tech-badge {
+      background: var(--accent);
+      color: white;
+      border-radius: 6px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .proof-container { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem; }
+    .proof-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--gray);
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 150px;
+      text-align: center;
+      font-size: 0.8rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .proof-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .proof-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 0.5rem; }
+
+    footer {
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-globe"></i> SAÉ 1.04</h1>
+  <nav>
+    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+    <a href="projects.html"><i class="fas fa-folder"></i> Projets</a>
+    <a href="bilan.html"><i class="fas fa-th-large"></i> Bilan de compétences</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="badge">SAÉ 1.04 · Semestre 1</div>
+  <h2><i class="fas fa-globe"></i> Se présenter sur internet</h2>
+  <p>Concevoir et déployer un site web personnel, maîtriser les technologies du web et construire une identité numérique professionnelle.</p>
+</div>
+
+<div class="meta-strip">
+  <span><i class="fas fa-user"></i> Gwendal Cauchon</span>
+  <span><i class="fas fa-layer-group"></i> Compétence RT3 – Créer des outils et applications</span>
+  <span><i class="fas fa-tags"></i> AC13.01 · AC13.04</span>
+</div>
+
+<main>
+
+  <div class="section-card">
+    <h3><i class="fas fa-info-circle"></i> Description & Objectifs</h3>
+    <p>Cette SAÉ vise à construire une présence professionnelle sur internet à travers la création d'un site web personnel. Elle mobilise des compétences en développement web (HTML/CSS), en architecture de site et en expression de soi dans un contexte numérique professionnel.</p>
+    <ul>
+      <li>Concevoir l'architecture d'un site web personnel clair et navigable.</li>
+      <li>Implémenter des pages web en HTML5 et CSS3 (ou avec un framework comme Tailwind CSS).</li>
+      <li>Publier le site sur un hébergement accessible publiquement.</li>
+      <li>Adopter une charte graphique cohérente et une identité visuelle professionnelle.</li>
+      <li>Valoriser son parcours, ses compétences et ses projets de manière structurée.</li>
+    </ul>
+    <div class="tech-stack">
+      <span class="tech-badge">HTML5</span>
+      <span class="tech-badge">CSS3</span>
+      <span class="tech-badge">Tailwind CSS</span>
+      <span class="tech-badge">Font Awesome</span>
+      <span class="tech-badge">JavaScript</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-graduation-cap"></i> Apprentissages Critiques (AC)</h3>
+    <div class="ac-grid">
+      <div class="ac-tag"><strong>AC13.01 – RT3</strong>Utiliser un système informatique et ses outils : éditeur de code, navigateur, outils de développement, hébergement web.</div>
+      <div class="ac-tag"><strong>AC13.04 – RT3</strong>Connaître l'architecture et les technologies d'un site web : structure HTML, styles CSS, interactions JavaScript, déploiement.</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-tasks"></i> Tâches réalisées</h3>
+    <ul>
+      <li><strong>Conception de l'architecture :</strong> Définition des pages du site (accueil, projets/SAÉ, présentation, bilan), création d'une arborescence claire et d'une navigation intuitive.</li>
+      <li><strong>Développement frontend :</strong> Codage en HTML5 et CSS3 avec Tailwind CSS pour le responsive design, intégration des icônes Font Awesome, développement d'interactions JavaScript (toggle, navigation).</li>
+      <li><strong>Charte graphique :</strong> Choix d'une palette de couleurs cohérente (bleu, blanc, gris), typographie lisible, mise en page épurée.</li>
+      <li><strong>Déploiement :</strong> Mise en ligne du site sur un hébergement accessible, vérification de la compatibilité multi-navigateurs.</li>
+      <li><strong>Contenu :</strong> Rédaction des textes de présentation personnelle, description des SAÉ et des compétences développées.</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-trophy"></i> Résultats obtenus</h3>
+    <p>Le site portfolio est opérationnel et accessible en ligne. Il présente l'ensemble des SAÉ du semestre 1 avec une structure homogène. La charte graphique bleue a été maintenue sur toutes les pages, garantissant une cohérence visuelle. Le menu de navigation permet un accès rapide à toutes les rubriques.</p>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-user-check"></i> Autoévaluation</h3>
+    <div class="autoeval-box">
+      <p>Cette SAÉ est celle qui m'a le plus impliqué personnellement, car elle porte directement sur ma propre image professionnelle. J'ai apprécié le défi de combiner esthétique et contenu technique. La principale difficulté a été de trouver le bon niveau de détail dans la présentation des SAÉ : ni trop synthétique, ni trop exhaustif.</p>
+      <p>Je maîtrise bien l'AC13.04 (architecture web et technologies), et je progresse sur l'AC13.01 (maîtrise des outils). Je souhaite approfondir le JavaScript pour rendre le site plus interactif.</p>
+    </div>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th>Problème rencontré</th>
+          <th>Solution envisagée ou envisageable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Responsive design difficile à gérer sur mobile pour certaines sections.</td>
+          <td>Tester systématiquement sur plusieurs tailles d'écran et utiliser les utilitaires responsive de Tailwind.</td>
+        </tr>
+        <tr>
+          <td>Contenu des pages SAÉ trop long, rendant la lecture fastidieuse.</td>
+          <td>Ajouter des systèmes d'accordéon (toggle) pour masquer les détails par défaut.</td>
+        </tr>
+        <tr>
+          <td>Hébergement et déploiement : gestion des chemins relatifs pour les images et fichiers.</td>
+          <td>Organiser les fichiers en dossiers thématiques (img/, pdf/, etc.) et vérifier chaque lien après déploiement.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-paperclip"></i> Preuves & Traces</h3>
+    <div class="proof-container">
+      <a href="https://blayzer500.github.io/Site/" target="_blank" class="proof-item">
+        <i class="fas fa-globe"></i>
+        <span>Site portfolio en ligne</span>
+      </a>
+      <a href="Preuves/Site.png" target="_blank" class="proof-item">
+        <i class="fas fa-image"></i>
+        <span>Capture page accueil</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Portfolio Gwendal Cauchon · BUT R&T · 2025
+</footer>
+
+</body>
+</html>

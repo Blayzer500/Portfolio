@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAÉ 1.01 – Hygiène informatique & Cybersécurité | Gwendal Cauchon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #eff6ff;
+      --blue-mid: #bfdbfe;
+      --accent: #f59e0b;
+      --gray: #374151;
+      --gray-light: #f9fafb;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--blue-light); color: var(--gray); line-height: 1.7; }
+
+    header {
+      background: var(--blue);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    nav a { color: white; text-decoration: none; margin-left: 1.2rem; font-size: 0.9rem; opacity: 0.9; transition: opacity 0.2s; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+
+    .hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }
+
+    .meta-strip {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+    .meta-strip span { display: flex; align-items: center; gap: 0.4rem; }
+    .meta-strip i { color: var(--blue); }
+
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--blue);
+    }
+    .section-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-card p { margin-bottom: 0.8rem; }
+    .section-card ul { padding-left: 1.4rem; }
+    .section-card ul li { margin-bottom: 0.4rem; }
+
+    .ac-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .ac-tag {
+      background: var(--blue-light);
+      border: 1px solid var(--blue-mid);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    .ac-tag strong { display: block; color: var(--blue); margin-bottom: 0.2rem; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; }
+    th { background: var(--blue); color: white; padding: 0.7rem 1rem; text-align: left; }
+    td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); }
+    tr:nth-child(even) td { background: var(--gray-light); }
+
+    .autoeval-box {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border: 1px solid #fcd34d;
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem;
+    }
+    .autoeval-box p { margin-bottom: 0.5rem; }
+
+    .proof-container { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem; }
+    .proof-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--gray);
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 150px;
+      text-align: center;
+      font-size: 0.8rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .proof-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .proof-item i { font-size: 2.5rem; color: var(--blue); margin-bottom: 0.5rem; }
+
+    footer {
+      background: var(--blue);
+      color: white;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-shield-alt"></i> SAÉ 1.01</h1>
+  <nav>
+    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+    <a href="projects.html"><i class="fas fa-folder"></i> Projets</a>
+    <a href="bilan.html"><i class="fas fa-th-large"></i> Bilan de compétences</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="badge">SAÉ 1.01 · Semestre 1</div>
+  <h2><i class="fas fa-shield-alt"></i> Sensibilisation à l'hygiène informatique et à la cybersécurité</h2>
+  <p>Comprendre les risques numériques et adopter des pratiques sécurisées dans un monde connecté.</p>
+</div>
+
+<div class="meta-strip">
+  <span><i class="fas fa-user"></i> Gwendal Cauchon</span>
+  <span><i class="fas fa-layer-group"></i> Compétence RT1 – Administrer les réseaux</span>
+  <span><i class="fas fa-tags"></i> AC11.02 · AC11.04 · AC11.05</span>
+</div>
+
+<main>
+
+  <div class="section-card">
+    <h3><i class="fas fa-info-circle"></i> Description & Objectifs</h3>
+    <p>Face aux menaces numériques omniprésentes, il est essentiel de comprendre les risques liés à l'utilisation des services numériques et d'adopter des pratiques sécurisées. Ce projet vise à sensibiliser les utilisateurs aux cybermenaces courantes et aux solutions adaptées pour les prévenir.</p>
+    <ul>
+      <li>Approfondir les connaissances en cybersécurité via une approche éducative et expérimentale.</li>
+      <li>Réaliser un travail de recherche et d'expérimentation en groupe.</li>
+      <li>Rédiger une notice technique collaborative.</li>
+      <li>Présenter une synthèse sous forme de diapositives lors d'une séance orale encadrée.</li>
+      <li>Effectuer un TP individuel de découverte sur les failles de sécurité des mots de passe.</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-graduation-cap"></i> Apprentissages Critiques (AC)</h3>
+    <div class="ac-grid">
+      <div class="ac-tag"><strong>AC11.02 – RT1</strong>Comprendre l'architecture et les fondements des systèmes numériques, les principes du codage de l'information et des communications.</div>
+      <div class="ac-tag"><strong>AC11.04 – RT1</strong>Maîtriser les rôles et principes fondamentaux des systèmes d'exploitation pour la configuration et l'administration des réseaux et services.</div>
+      <div class="ac-tag"><strong>AC11.05 – RT1</strong>Identifier les dysfonctionnements du réseau local et savoir les signaler grâce à des outils de diagnostic appropriés.</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-tasks"></i> Tâches réalisées</h3>
+    <ul>
+      <li>Auto-formation via le MOOC de l'ANSSI pour acquérir une base solide en cybersécurité.</li>
+      <li>Travail de recherche et d'expérimentation sur un serveur et client SSH, avec mise en place d'une authentification sécurisée par clé publique/privée.</li>
+      <li>Présentation orale sous forme de diapositives en groupe.</li>
+      <li>TP individuel de découverte "Capture the Flag" sur les conséquences d'une mauvaise gestion des mots de passe.</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-trophy"></i> Résultats obtenus</h3>
+    <p>Ce projet m'a permis de mieux comprendre l'importance de la cybersécurité, d'acquérir un vocabulaire technique et de découvrir la méthodologie des tests d'intrusion. La notice technique collaborative a été rendue dans les délais, et la présentation orale a été fini à temps (cf. <a href="Preuves/Expo Lo.pdf">Diaporama de présentation</a>).</p>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-user-check"></i> Autoévaluation</h3>
+    <div class="autoeval-box">
+      <p>Ce projet m'a permis de développer des compétences pratiques en cybersécurité, en recherche et en travail collaboratif. Cependant, j'ai rencontré quelques difficultés liées à la gestion du temps pour compléter le MOOC et les modules de formation (cf. <a href="Preuves/Cisco_modules.png">Résultats modules Cisco</a>), ainsi qu'aux échéances serrées concernant la préparation de la présentation orale.</p>
+    </div>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th>Problème rencontré</th>
+          <th>Solution étant possible</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gestion du temps pour suivre le MOOC et compléter les modules, le contenu étant long.</td>
+          <td>Prévoir de terminer au moins un module par semaine.</td>
+        </tr>
+        <tr>
+          <td>Pression des échéances pour la préparation de la présentation orale.</td>
+          <td>Répartir clairement les grandes parties entre les membres du groupe.</td>
+        </tr>
+        <tr>
+          <td>Reprendre toutes les informations pour l'examen écrit.</td>
+          <td>Prendre des notes détaillées pendant les modules afin de faciliter la révision.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-paperclip"></i> Preuves & Traces</h3>
+    <div class="proof-container">
+      <a href="Preuves/Expo Lo.pdf" download class="proof-item">
+        <i class="fas fa-file-powerpoint"></i>
+        <span>Diaporama de présentation</span>
+      </a>
+      <a href="Preuves/Cisco_modules.png" target="_blank" class="proof-item">
+        <i class="fas fa-file-alt"></i>
+        <span>Cisco notes modules</span>  
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Portfolio Gwendal Cauchon · BUT R&T · 2025
+</footer>
+
+</body>
+</html>

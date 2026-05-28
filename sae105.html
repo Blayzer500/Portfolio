@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAÉ 1.05 – Traiter des données | Gwendal Cauchon</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --accent: #dc2626;
+      --accent-dark: #b91c1c;
+      --accent-light: #fef2f2;
+      --accent-mid: #fecaca;
+      --gray: #374151;
+      --gray-light: #f9fafb;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--accent-light); color: var(--gray); line-height: 1.7; }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    nav a { color: white; text-decoration: none; margin-left: 1.2rem; font-size: 0.9rem; opacity: 0.9; transition: opacity 0.2s; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+
+    .hero {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1rem; opacity: 0.85; max-width: 600px; margin: 0 auto; }
+
+    .meta-strip {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+    .meta-strip span { display: flex; align-items: center; gap: 0.4rem; }
+    .meta-strip i { color: var(--accent); }
+
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--accent);
+    }
+    .section-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-card p { margin-bottom: 0.8rem; }
+    .section-card ul { padding-left: 1.4rem; }
+    .section-card ul li { margin-bottom: 0.4rem; }
+
+    .ac-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .ac-tag {
+      background: var(--accent-light);
+      border: 1px solid var(--accent-mid);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    .ac-tag strong { display: block; color: var(--accent); margin-bottom: 0.2rem; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; }
+    th { background: var(--accent); color: white; padding: 0.7rem 1rem; text-align: left; }
+    td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); }
+    tr:nth-child(even) td { background: var(--gray-light); }
+
+    .autoeval-box {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 1px solid var(--accent-mid);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem;
+    }
+    .autoeval-box p { margin-bottom: 0.5rem; }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    .tech-badge {
+      background: var(--accent);
+      color: white;
+      border-radius: 6px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .proof-container { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem; }
+    .proof-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--gray);
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 150px;
+      text-align: center;
+      font-size: 0.8rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .proof-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .proof-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 0.5rem; }
+
+    footer {
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-database"></i> SAÉ 1.05</h1>
+  <nav>
+    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+    <a href="projects.html"><i class="fas fa-folder"></i> Projets</a>
+    <a href="bilan.html"><i class="fas fa-th-large"></i> Bilan de compétences</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="badge">SAÉ 1.05 · Semestre 1</div>
+  <h2><i class="fas fa-database"></i> Traiter des données</h2>
+  <p>Écrire, corriger et exécuter des programmes pour lire, manipuler et exploiter des données dans un environnement informatique.</p>
+</div>
+
+<div class="meta-strip">
+  <span><i class="fas fa-user"></i> Gwendal Cauchon</span>
+  <span><i class="fas fa-layer-group"></i> Compétence RT3 – Créer des outils et applications</span>
+  <span><i class="fas fa-tags"></i> AC13.01 · AC13.02 · AC13.03 · AC13.04 · AC13.05 · AC13.06</span>
+</div>
+
+<main>
+
+  <div class="section-card">
+    <h3><i class="fas fa-info-circle"></i> Description & Objectifs</h3>
+    <p>Cette SAÉ porte sur le traitement de données par la programmation. Elle vise à acquérir les bases de l'algorithmique et de la programmation appliquée au domaine des réseaux et télécommunications, dans un contexte de travail collaboratif.</p>
+    <ul>
+      <li>Lire, comprendre et modifier des programmes existants dans un langage donné.</li>
+      <li>Traduire un algorithme en code exécutable dans un environnement spécifique.</li>
+      <li>Choisir des mécanismes de gestion de données adaptés au besoin.</li>
+      <li>S'intégrer dans un environnement de développement collaboratif (versioning, partage de code).</li>
+      <li>Connaître l'architecture d'un site web pour y intégrer des données traitées.</li>
+    </ul>
+    <div class="tech-stack">
+      <span class="tech-badge">Python</span>
+      <span class="tech-badge">Algorithmique</span>
+      <span class="tech-badge">Fichiers CSV</span>
+      <span class="tech-badge">Git</span>
+      <span class="tech-badge">Linux</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-graduation-cap"></i> Apprentissages Critiques (AC)</h3>
+    <div class="ac-grid">
+      <div class="ac-tag"><strong>AC13.01 – RT3</strong>Utiliser un système informatique et ses outils : IDE, terminal, gestionnaire de fichiers, environnement Linux.</div>
+      <div class="ac-tag"><strong>AC13.02 – RT3</strong>Lire, exécuter, corriger et modifier un programme en langage Python.</div>
+      <div class="ac-tag"><strong>AC13.03 – RT3</strong>Traduire un algorithme dans un langage et pour un environnement donné.</div>
+      <div class="ac-tag"><strong>AC13.04 – RT3</strong>Connaître l'architecture et les technologies d'un site web pour y intégrer le résultat d'un traitement.</div>
+      <div class="ac-tag"><strong>AC13.05 – RT3</strong>Choisir les mécanismes de gestion de données adaptés au développement de l'outil et argumenter ses choix.</div>
+      <div class="ac-tag"><strong>AC13.06 – RT3</strong>S'intégrer dans un environnement propice au développement et au travail collaboratif (Git, partage de code).</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-tasks"></i> Tâches réalisées</h3>
+    <ul>
+      <li><strong>Analyse d'algorithmes :</strong> Lecture et compréhension de pseudocode fourni, identification des structures de contrôle (boucles, conditions, fonctions).</li>
+      <li><strong>Développement Python :</strong> Écriture de scripts Python pour lire des fichiers CSV, filtrer et trier des données, générer des résultats formatés.</li>
+      <li><strong>Correction de bugs :</strong> Débogage de programmes avec erreurs, identification et correction des anomalies.</li>
+      <li><strong>Gestion de données :</strong> Choix d'une structure de données adaptée (listes, dictionnaires), justification du choix en fonction des opérations à réaliser.</li>
+      <li><strong>Travail collaboratif :</strong> Utilisation de Git pour versionner le code, collaboration avec des binômes via des branches et des merges.</li>
+      <li><strong>Intégration web :</strong> Affichage des données traitées dans une page HTML simple.</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-trophy"></i> Résultats obtenus</h3>
+    <p>Les scripts Python développés fonctionnent correctement et produisent les résultats attendus. Le travail en binôme avec Git a permis une collaboration efficace sans conflits majeurs. Les données traitées ont été intégrées dans une page web lisible. Le rapport de justification des choix techniques a été bien reçu.</p>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-user-check"></i> Autoévaluation</h3>
+    <div class="autoeval-box">
+      <p>Cette SAÉ m'a confronté pour la première fois à la programmation dans un contexte professionnel. Si les bases algorithmiques m'étaient familières, leur application en Python dans un environnement Linux a nécessité une adaptation. J'ai particulièrement apprécié la dimension collaborative grâce à Git, qui m'a appris à structurer mon travail différemment.</p>
+      <p>Je me positionne en maîtrise correcte de l'AC13.01, AC13.02 et AC13.06. Les AC13.03 (traduction d'algorithme) et AC13.05 (choix des mécanismes de données) sont des points que je souhaite renforcer lors des prochaines SAÉ.</p>
+    </div>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th>Problème rencontré</th>
+          <th>Solution envisagée ou envisageable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Difficultés à déboguer des erreurs Python non explicites (stack trace confus).</td>
+          <td>Apprendre à utiliser le débogueur intégré à VS Code et ajouter des print() stratégiques pour tracer l'exécution.</td>
+        </tr>
+        <tr>
+          <td>Conflits Git lors des merges en binôme.</td>
+          <td>Mieux communiquer sur les branches en cours de développement et faire des commits plus fréquents et atomiques.</td>
+        </tr>
+        <tr>
+          <td>Choix de la structure de données (liste vs dictionnaire) pas toujours justifié avec précision.</td>
+          <td>Rédiger systématiquement un court paragraphe de justification lors des choix techniques futurs.</td>
+        </tr>
+        <tr>
+          <td>Intégration des données en HTML : mise en forme des tableaux peu maîtrisée au départ.</td>
+          <td>Revoir les bases des tableaux HTML et CSS, et utiliser Tailwind pour un rendu plus rapide.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h3><i class="fas fa-paperclip"></i> Preuves & Traces</h3>
+    <div class="proof-container">
+      <a href="Preuves/Rapport.md" download class="proof-item">
+        <i class="fas fa-file-pdf"></i>
+        <span>Rapport fin de projet</span>
+      </a>
+      <a href="Preuves/fiche_osm.py" class="proof-item">
+        <i class="fab fa-python"></i>
+        <span>Script Python</span>
+      </a>
+      <a href="Preuves/SAE15OSM.png" target="_blank" class="proof-item">
+        <i class="fas fa-table"></i>
+        <span>Données affichées</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Portfolio Gwendal Cauchon · BUT R&T · 2025
+</footer>
+
+</body>
+</html>
