@@ -202,7 +202,6 @@
     <div class="tech-stack">
       <span class="tech-badge">Python</span>
       <span class="tech-badge">Algorithmique</span>
-      <span class="tech-badge">Fichiers CSV</span>
       <span class="tech-badge">Git</span>
       <span class="tech-badge">Linux</span>
     </div>
@@ -227,14 +226,18 @@
       <li><strong>Développement Python :</strong> Écriture de scripts Python pour lire des fichiers CSV, filtrer et trier des données, générer des résultats formatés.</li>
       <li><strong>Correction de bugs :</strong> Débogage de programmes avec erreurs, identification et correction des anomalies.</li>
       <li><strong>Gestion de données :</strong> Choix d'une structure de données adaptée (listes, dictionnaires), justification du choix en fonction des opérations à réaliser.</li>
-      <li><strong>Travail collaboratif :</strong> Utilisation de Git pour versionner le code, collaboration avec des binômes via des branches et des merges.</li>
       <li><strong>Intégration web :</strong> Affichage des données traitées dans une page HTML simple.</li>
+      <li><strong>Rapport en fin de saé :</strong> Faire un bilan de ce qu'on avait réussi ou non (cf. <a href="Preuves/Rapport.pdf">Rapport fin de projet</a>) .</li>
     </ul>
   </div>
 
   <div class="section-card">
     <h3><i class="fas fa-trophy"></i> Résultats obtenus</h3>
-    <p>Les scripts Python développés fonctionnent correctement et produisent les résultats attendus. Le travail en binôme avec Git a permis une collaboration efficace sans conflits majeurs. Les données traitées ont été intégrées dans une page web lisible. Le rapport de justification des choix techniques a été bien reçu.</p>
+    <p>Les scripts Python développés fonctionnent correctement et produisent les résultats attendus. Le travail en binôme avec Git a permis une collaboration efficace sans conflits majeurs. Les données traitées ont été intégrées dans une page web lisible. Le rapport de justification des choix techniques a été bien reçu.
+      J'ai réussi à rendre les 2 programmes python à rendre : <br>
+      - fiche_osm.py qui renvoit les informations d'un point OpenStreetMap (cf. <a href="Preuves/SAE15OSM.png">Résultat OpenStreetMap</a>)<br>
+      - infos_loclaes.py qui, pour moi, à partir d'un nom de ville renvoit sa population, ses caméras (avec ses types) et le nombre de caméra par habitant. 
+    </p>
   </div>
 
   <div class="section-card">
@@ -253,12 +256,12 @@
       </thead>
       <tbody>
         <tr>
-          <td>Difficultés à déboguer des erreurs Python non explicites (stack trace confus).</td>
+          <td>Difficultés à déboguer des erreurs Python .</td>
           <td>Apprendre à utiliser le débogueur intégré à VS Code et ajouter des print() stratégiques pour tracer l'exécution.</td>
         </tr>
         <tr>
-          <td>Conflits Git lors des merges en binôme.</td>
-          <td>Mieux communiquer sur les branches en cours de développement et faire des commits plus fréquents et atomiques.</td>
+          <td>Difficultés à un point sur une carte avec la projection de Mercator.</td>
+          <td>J'ai du bien relire la documentation donner par le prof par un site qu'il avait donner. J'ai suivi chacune des étapes comme le site (cf. <a href="Preuves/fiche_osm_mercator.png">Projection Mercator</a>).  </td>
         </tr>
         <tr>
           <td>Choix de la structure de données (liste vs dictionnaire) pas toujours justifié avec précision.</td>
@@ -275,17 +278,17 @@
   <div class="section-card">
     <h3><i class="fas fa-paperclip"></i> Preuves & Traces</h3>
     <div class="proof-container">
-      <a href="Preuves/Rapport.md" download class="proof-item">
+      <a href="Preuves/Rapport.pdf"  class="proof-item">
         <i class="fas fa-file-pdf"></i>
         <span>Rapport fin de projet</span>
       </a>
-      <a href="Preuves/fiche_osm.py" class="proof-item">
+      <a href="Preuves/fiche_osm_mercator.png" class="proof-item">
         <i class="fab fa-python"></i>
-        <span>Script Python</span>
+        <span>Projection Mercator</span>
       </a>
       <a href="Preuves/SAE15OSM.png" target="_blank" class="proof-item">
         <i class="fas fa-table"></i>
-        <span>Données affichées</span>
+        <span>Résultat OpenStreetMap</span>
       </a>
     </div>
   </div>
